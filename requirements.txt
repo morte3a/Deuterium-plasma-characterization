@@ -1,0 +1,7 @@
+plasmapy==2026.2.0
+astropy
+numpy
+matplotlib
+pandas
+jupyter
+jupyterlab
