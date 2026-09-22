@@ -164,7 +164,7 @@ deuterium-plasma-characterization/
 │
 ├── README.md
 ├── requirements.txt
-└── Deuterium Plasma Characterization.ipynb
+└── plasma_characterization.ipynb
 ```
 
 ---
