@@ -1,192 +1,109 @@
-# ِِDeuterium-plasma-characterization
+# Deuterium Plasma Characterization
 
-A computational plasma physics project investigating the dependence of fundamental plasma parameters on **plasma density, magnetic field, and temperature** using [PlasmaPy](https://www.plasmapy.org/), Astropy, NumPy, Matplotlib, and Pandas.
+A computational plasma-physics project for investigating the dependence of fundamental plasma parameters on **plasma density, magnetic field, and temperature** using the [PlasmaPy](https://www.plasmapy.org/) library.
 
-The project focuses on a deuterium plasma and calculates characteristic spatial, temporal, thermal, and magnetic quantities relevant to magnetized plasma physics.
+The project uses a deuterium plasma model and combines numerical calculations with log-log visualizations to study characteristic plasma quantities and their physical behavior under different plasma conditions.
 
 ---
 
 ## Project Overview
 
-The objective of this project is to numerically investigate how key plasma parameters change when the plasma density, magnetic field, and temperature are varied.
+The main objective of this project is to develop a computational workflow for calculating and visualizing fundamental plasma parameters using Python and PlasmaPy.
 
-The analysis is performed using the **PlasmaPy** Python library and includes:
+The analysis considers:
+
+* **Density dependence**
+* **Magnetic-field dependence**
+* **Temperature dependence**
+
+The calculated quantities include:
 
 * Alfvén speed
 * Ion inertial length
 * Debye length
 * Electron plasma frequency
-* Ion and electron thermal speeds
-* Ion and electron gyrofrequencies
-* Ion and electron Larmor radii
+* Gyrofrequency
+* Larmor radius
+* Thermal speed
 * Plasma beta
 
-The calculations are performed using physically meaningful parameter ranges and the resulting trends are analyzed using log-log plots.
+---
+
+## Plasma Model
+
+The calculations are based on a deuterium plasma consisting of:
+
+* Ion species: **D⁺**
+* Electron species: **e⁻**
+
+### Reference conditions
+
+| Parameter            |                      Value |
+| -------------------- | -------------------------: |
+| Ion density          | $10^{19}\ \mathrm{m^{-3}}$ |
+| Ion temperature      |          $10\ \mathrm{eV}$ |
+| Electron temperature |          $10\ \mathrm{eV}$ |
+| Magnetic field       |            $1\ \mathrm{T}$ |
+
+These reference conditions are used for the baseline plasma characterization and as fixed parameters when varying individual plasma properties.
 
 ---
 
-## Physical Model
+## Parameter Scans
 
-The primary plasma species considered in this project is deuterium:
+### Density scan
 
-* Ion: D⁺
-* Electron: e⁻
-* Electron temperature: 10 eV
-* Ion temperature: 10 eV
-* Reference density: \(10^{19}\,\mathrm{m^{-3}}\)
-* Reference magnetic field: 1 T
-
-The main parameter scans are:
-
-| Parameter      |                                Range | Number of points |
-| -------------- | -----------------------------------: | ---------------: |
-| Plasma density | \(10^{17}-10^{21}\,\mathrm{m^{-3}}\) |               20 |
-| Magnetic field |               \(0.1-10\,\mathrm{T}\) |               20 |
-| Temperature    |              \(1-1000\,\mathrm{eV}\) |               20 |
-
-Logarithmically spaced values are used for the parameter scans.
-
----
-
-## Calculated Plasma Parameters
-
-### Alfvén Speed
-
-The Alfvén speed characterizes the propagation of magnetohydrodynamic disturbances in a magnetized plasma.
-
-At fixed magnetic field and ion species:
+The ion density is varied from:
 
 $$
-v_A \propto n^{-1/2}
+10^{17} \leq n \leq 10^{21}\ \mathrm{m^{-3}}
 $$
 
-Therefore, increasing plasma density results in a decrease in Alfvén speed.
+using 20 logarithmically spaced points.
 
----
+The following quantities are investigated:
 
-### Ion Inertial Length
+* Alfvén speed
+* Ion inertial length
+* Debye length
+* Electron plasma angular frequency
+* Plasma beta
 
-The ion inertial length is a characteristic spatial scale associated with ion inertia and two-fluid plasma effects.
+### Magnetic-field scan
 
-For a fixed ion species:
-
-$$
-d_i \propto n^{-1/2}
-$$
-
-The ion inertial length therefore decreases as plasma density increases.
-
----
-
-### Debye Length
-
-The Debye length characterizes the spatial scale over which electric fields are screened by the plasma.
-
-For fixed electron temperature:
+The magnetic field is varied from:
 
 $$
-\lambda_D \propto n^{-1/2}
+0.1 \leq B \leq 10\ \mathrm{T}
 $$
 
-Thus, increasing density produces a shorter Debye length.
+using 20 logarithmically spaced points.
 
----
+The following quantities are investigated:
 
-### Electron Plasma Frequency
+* D⁺ gyrofrequency
+* Electron gyrofrequency
+* D⁺ Larmor radius
+* Electron Larmor radius
+* Plasma beta
 
-The electron plasma angular frequency is given by
+### Temperature scan
 
-$$
-\omega_{pe}
-=
-\sqrt{\frac{n_e e^2}{m_e\epsilon_0}}
-$$
-
-and therefore:
+The plasma temperature is varied from:
 
 $$
-\omega_{pe}\propto n_e^{1/2}
+1 \leq T \leq 1000\ \mathrm{eV}
 $$
 
-The electron plasma frequency increases as the electron density increases.
+using 20 logarithmically spaced points.
 
-> Note: PlasmaPy returns the plasma frequency here as an angular frequency in rad/s. The ordinary frequency in Hz is obtained using \(f=\omega/(2\pi)\).
+The following quantities are investigated:
 
----
-
-### Gyrofrequency
-
-The gyrofrequency is given by
-
-$$
-\omega_c=\frac{|q|B}{m}
-$$
-
-For a fixed particle species:
-
-$$
-\omega_c\propto B
-$$
-
-Therefore, both the D⁺ and electron gyrofrequencies increase linearly with magnetic field.
-
-Because electrons have a much smaller mass than deuterium ions, their gyrofrequency is much higher.
-
----
-
-### Larmor Radius
-
-The Larmor radius is calculated from
-
-$$
-r_L=\frac{v_\perp}{\omega_c}
-$$
-
-At fixed temperature:
-
-$$
-r_L\propto B^{-1}
-$$
-
-Therefore, increasing the magnetic field results in a smaller Larmor radius.
-
-The D⁺ Larmor radius is larger than the electron Larmor radius because of the difference in particle mass.
-
----
-
-### Plasma Beta
-
-Plasma beta represents the ratio of thermal pressure to magnetic pressure:
-
-$$
-\beta=
-\frac{p_{\mathrm{thermal}}}{p_{\mathrm{magnetic}}}
-$$
-
-For a single species:
-
-$$
-\beta=
-\frac{2\mu_0 n k_B T}{B^2}
-$$
-
-Therefore:
-
-$$
-\beta\propto n
-$$
-
-$$
-\beta\propto T
-$$
-
-and
-
-$$
-\beta\propto B^{-2}
-$$
-
-The project confirms these dependencies numerically through density, temperature, and magnetic-field scans.
+* Plasma beta
+* D⁺ Larmor radius
+* Electron Larmor radius
+* D⁺ thermal speed
+* Electron thermal speed
 
 ---
 
@@ -195,94 +112,48 @@ The project confirms these dependencies numerically through density, temperature
 For the reference conditions
 
 $$
-n=10^{19}\,\mathrm{m^{-3}},
-\qquad
-T=10\,\mathrm{eV},
-\qquad
-B=1\,\mathrm{T}
+n = 10^{19}\ \mathrm{m^{-3}}, \qquad
+T_i=T_e=10\ \mathrm{eV}, \qquad
+B=1\ \mathrm{T},
 $$
 
-the calculated quantities are:
+the calculated quantities include:
 
-| Quantity                          |                        Value |
-| --------------------------------- | ---------------------------: |
-| Alfvén speed                      |      \(4.878\times10^6\) m/s |
-| Ion inertial length               |     \(1.018\times10^{-1}\) m |
-| Debye length                      |     \(7.434\times10^{-6}\) m |
-| Electron plasma angular frequency | \(1.784\times10^{11}\) rad/s |
-| D⁺ thermal speed                  |      \(3.096\times10^4\) m/s |
-| Electron thermal speed            |      \(1.876\times10^6\) m/s |
-| D⁺ Larmor radius                  |     \(6.460\times10^{-4}\) m |
-| Electron Larmor radius            |     \(1.066\times10^{-5}\) m |
-| Electron beta                     |       \(4.027\times10^{-5}\) |
-| Total beta                        |       \(8.053\times10^{-5}\) |
+| Quantity                          |                               Value |
+| --------------------------------- | ----------------------------------: |
+| Alfvén speed                      |      $4.88\times10^6\ \mathrm{m/s}$ |
+| Ion inertial length               |     $1.02\times10^{-1}\ \mathrm{m}$ |
+| Debye length                      |     $7.43\times10^{-6}\ \mathrm{m}$ |
+| Electron plasma angular frequency | $1.78\times10^{11}\ \mathrm{rad/s}$ |
+| D⁺ thermal speed                  |      $3.10\times10^4\ \mathrm{m/s}$ |
+| Electron thermal speed            |      $1.88\times10^6\ \mathrm{m/s}$ |
+| D⁺ Larmor radius                  |     $6.46\times10^{-4}\ \mathrm{m}$ |
+| Electron Larmor radius            |     $1.07\times10^{-5}\ \mathrm{m}$ |
+| Total plasma beta                 |                 $8.05\times10^{-5}$ |
 
-The small beta value indicates that, under these reference conditions, magnetic pressure is much larger than the thermal pressure.
-
----
-
-## Main Scaling Results
-
-The numerical analysis reproduces the expected physical scaling laws:
-
-### Density dependence
-
-$$
-v_A\propto n^{-1/2}
-$$
-
-$$
-d_i\propto n^{-1/2}
-$$
-
-$$
-\lambda_D\propto n^{-1/2}
-$$
-
-$$
-\omega_{pe}\propto n^{1/2}
-$$
-
-$$
-\beta\propto n
-$$
-
-### Magnetic-field dependence
-
-$$
-\omega_c\propto B
-$$
-
-$$
-r_L\propto B^{-1}
-$$
-
-$$
-\beta\propto B^{-2}
-$$
-
-### Temperature dependence
-
-$$
-\beta\propto T
-$$
-
-These relationships provide a useful numerical demonstration of how characteristic plasma scales respond to changes in fundamental plasma parameters.
+The low reference plasma beta indicates that, under these conditions, the magnetic pressure is much larger than the thermal pressure.
 
 ---
 
 ## Software and Libraries
 
-The project was developed in Python using:
+This project was developed using Python and the following libraries:
 
-* [PlasmaPy](https://www.plasmapy.org/)
-* [Astropy](https://www.astropy.org/)
-* [NumPy](https://numpy.org/)
-* [Matplotlib](https://matplotlib.org/)
-* [Pandas](https://pandas.pydata.org/)
-* Jupyter / JupyterLab
+* **PlasmaPy 2026.2.0** — plasma physics calculations
+* **Astropy** — physical units and constants
+* **NumPy** — numerical calculations
+* **Matplotlib** — data visualization
+* **Pandas** — organizing calculated results
+* **Jupyter** — notebook environment
+* **JupyterLab** — interactive development environment
 
-PlasmaPy is used for the primary plasma-physics calculations, while NumPy, Matplotlib, and Pandas are used for numerical processing, visualization, and organization of results.
+All required packages are listed in `requirements.txt`.
+
+To install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -293,7 +164,6 @@ deuterium-plasma-characterization/
 │
 ├── README.md
 ├── requirements.txt
-│
 └── plasma_characterization.ipynb
 ```
 
@@ -301,28 +171,27 @@ deuterium-plasma-characterization/
 
 ## Reproducibility
 
+The calculations are implemented in a Jupyter Notebook using SI units through Astropy and plasma-physics functions provided by PlasmaPy.
+
+The notebook contains the complete workflow, from defining plasma conditions to calculating and visualizing the selected plasma parameters.
+
 To reproduce the analysis:
 
-```bash
-pip install -r requirements.txt
-```
-
-Then open the Jupyter notebook:
-
-```bash
-jupyter lab
-```
-
-and run:
-
-```text
-plasma_characterization.ipynb
-```
+1. Install the required Python packages using `requirements.txt`.
+2. Open `plasma_characterization.ipynb` in JupyterLab.
+3. Run the notebook cells from top to bottom.
 
 ---
 
 ## Purpose
 
-This project was developed as a computational study of fundamental plasma parameters and as a practical application of Python-based plasma physics analysis.
+This project was developed as a computational plasma-physics study to strengthen practical experience with:
 
-The main emphasis is on connecting numerical calculations with the underlying physical scaling laws and interpreting how characteristic plasma length, time, velocity, and pressure scales respond to changes in density, magnetic field, and temperature.
+* Python for scientific computing
+* PlasmaPy
+* Astropy units
+* Numerical parameter scans
+* Plasma-physics calculations
+* Scientific visualization
+* Physical interpretation of plasma parameters
+* Reproducible computational research
